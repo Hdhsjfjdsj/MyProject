@@ -129,10 +129,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install black
 
-      - name: Check formatting with black (warn only)
+      - name: "Check formatting with black (warn only)"
         run: black src/ tests/ --check || true
 
-      - name: Show black diff
+      - name: "Show black diff"
         run: black src/ tests/ --diff || true
 
   # Security stage: run bandit and upload JSON report
@@ -153,10 +153,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install bandit
 
-      - name: Run bandit (console)
+      - name: "Run bandit (console)"
         run: bandit -r src/ -v || true
 
-      - name: Run bandit (json output)
+      - name: "Run bandit (json output)"
         run: bandit -r src/ -f json -o security_report.json || true
 
       - name: Upload security report
@@ -173,28 +173,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download coverage artifact (if present)
+      - name: "Download coverage artifact (if present)"
         uses: actions/download-artifact@v4
-        continue-on-error: true
         with:
           name: coverage-html
           path: artifacts/coverage-html
-
-      - name: Download lint report (if present)
-        uses: actions/download-artifact@v4
         continue-on-error: true
+
+      - name: "Download lint report (if present)"
+        uses: actions/download-artifact@v4
         with:
           name: lint-report
           path: artifacts/lint
-
-      - name: Download security report (if present)
-        uses: actions/download-artifact@v4
         continue-on-error: true
+
+      - name: "Download security report (if present)"
+        uses: actions/download-artifact@v4
         with:
           name: security-report
           path: artifacts/security
+        continue-on-error: true
 
-      - name: Simple package: compile, zip and upload
+      - name: "Simple package: compile, zip and upload"
         run: |
           echo "Creating simple deployment package..."
           rm -f deployment-package.zip || true
